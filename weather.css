@@ -1,0 +1,185 @@
+body {
+    font-family: 'Montserrat',serif;
+    /* text-transform: uppercase; */
+    display:grid;
+    align-items: center;
+    place-content: center center;
+    place-items: center center;
+    /* justify-content: stretch; */
+    /* align-items: stretch; */
+   }
+
+   body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+
+ }
+
+
+#w1 {
+    /* grid-area: 1 / 1 / 2 / 3; */
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+#all__wrapper {
+    border: 1px solid red;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+
+}
+#weather__wrapper {
+    /* border: 1px solid red; */
+}
+ #weather__cards {
+     display: grid;
+     /* grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); */
+     place-items: center center;
+     justify-content: stretch;
+     align-content: stretch;
+     width: 100%; 
+     height: 100%;
+     /* border: 1px solid red; */
+ }
+   
+   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', sans-serif;
+    font-weight: 300;
+    /* text-transform: uppercase; */
+   }
+
+.ampm {
+       font-size: 10px;
+   }
+.weather__card {
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    /* margin: 30px; */
+    /* border: 1px solid red; */
+    width: 300px;
+    height: 400px;
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 30px;
+    color: white;
+    padding: 10px;
+    /* box-shadow: 50px 50px 50px rgba(0,0,0,0.3); */
+    transition: all 0.15s ease-in;
+}
+.weather__card:hover {
+    transform: scale(1.03,1.03);
+    /* box-shadow: 55px 55px 70px rgba(0,0,0,0.1); */
+    /* transition: all 0.15s ease-out; */
+}
+
+.line {
+    background: white;
+    height: 0.04rem;
+    opacity: 0.5;
+}
+.upper__information {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    content: center;
+    text-align: center;
+    margin-bottom: 10px;
+    /* border: 1px solid red; */
+}
+
+.city {
+    font-size: 16px;
+}
+.upper__information >.curr__temp{
+    font-size: 32px;
+}
+
+.upper {
+    content: center
+}
+
+.hour {
+    /* border: 1px solid green; */
+    text-align: center;
+    padding: 0px;
+    display: grid;
+    height: 80%;
+    font-size: 14px;
+    grid-template-rows: auto auto;
+    align-content: space-around;
+    justify-content: center;
+    margin: 10px 0px 10px 0px;
+    /* border: 1px solid red; */
+}
+
+.hour__time, .hour__time__current {
+    /* border: 1px solid black; */
+    font-weight: 700;
+}
+
+.temp, #now__temp {
+    /* border: 1px solid black; */
+}
+
+.hourly__forecast {
+    transform: translateZ(20px);
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    align-items: center;
+    justify-content: fill;
+    width: 100%;
+    font-size: 10px;
+    /* border: 1px solid red; */
+}
+
+.weekly__forecast {
+    /* border: 1px solid red; */
+    margin-top: 10px;
+}
+.day {
+    /* border: 1px solid blue; */
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+    height: 2.2rem;
+    margin: 0 10%;
+}
+.dayName {
+    /* border: 1px solid black; */
+
+}
+
+.high {
+    /* border: 1px solid black; */
+}
+
+.low {
+    /* border: 1px solid black; */
+}
+
+#weather__smalls {
+    background: rgb(168, 168, 168);
+    width: 400px;
+    /* border: 1px solid red; */
+    display: grid;
+    align-content: stretch;
+    justify-content: stretch;
+
+}
+.weather__small {
+    /* border: 1px solid red; */
+    background: grey;
+    margin: 10px;
+    height: 50px;
+}
+
+.weather__small:hover {
+    /* background: red; */
+}
+#addNewSmall {
+    background: rgb(59, 59, 59);
+}

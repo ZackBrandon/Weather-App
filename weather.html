@@ -1,0 +1,111 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zack's Weather Application</title>
+        <link rel="stylesheet" href="weather.css">
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:300" rel="stylesheet">
+        <script src="weather.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.0.3/tilt.jquery.min.js" integrity="sha512-14AZ/DxUrlF26z6v7egDkpJHKyJRn/7ue2BgpWZ/fmqrqVzf4PrQnToy99sHmKwzKev/VZ1tjPxusuTV/n8CcQ==" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!-- <h1>Weather Information</h1> -->
+        <div id="all__wrapper">
+            <div id="weather__wrapper">
+                <div id="weather__smalls">
+                    <div class="weather__small" id="weather__small1"></div>
+                    <div class="weather__small" id="addNewSmall">
+                        <input id="input__field"type="number">
+                    </div>
+                </div>
+            </div>
+
+            <div id="weather__cards">
+                <div hidden data-tilt-speed="900" data-tilt-scale="1.06" data-tilt data-tilt-shadow="true" data-tilt-perspective="1000" data-tilt-max="4" data-tilt-glare data-tilt-max-glare="0.3" id="w1" class="weather__card">
+                    <div class="upper__information">
+                        <div class="time upper"></div>
+                        <div class="city upper"></div>
+                        <div class="curr__temp upper "></div>
+                        <div class="sky upper"></div>
+                        <div class="feels_like upper"></div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="hourly__forecast">
+                        <div class="hour current__hour">
+                            <div class="hour__time__current">Now</div>
+                            <div class="curr__temp" id="now__temp"></div>
+                        </div>
+                        <div class="hour hour1">
+                            <div class="hour__time"></div>
+                            <div class="temp temp1"></div>
+                        </div>
+                        <div class="hour hour2">
+                            <div class="hour__time"></div>
+                            <div class="temp temp2"></div>
+                        </div>
+                        <div class="hour hour3">
+                            <div class="hour__time"></div>
+                            <div class="temp temp3"></div>
+                        </div>
+                        <div class="hour hour4">
+                            <div class="hour__time"></div>
+                            <div class="temp temp4"></div>
+                        </div>
+                        <div class="hour hour5">
+                            <div class="hour__time"></div>
+                            <div class="temp temp5"></div>
+                        </div>
+                        <div class="hour hour6">
+                            <div class="hour__time"></div>
+                            <div class="temp temp6"></div>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="weekly__forecast">
+                        <div class="day day1">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day2">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day3">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day4">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day5">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day6">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low"></div>
+                        </div>
+                        <div class="day day7">
+                            <div class="dayName"></div>
+                            <div class="high"></div>
+                            <div class="low">
+                        </div>
+                        
+                    </div>
+
+                </div>
+            
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js" integrity="sha512-5x7t0fTAVo9dpfbp3WtE2N6bfipUwk7siViWncdDoSz2KwOqVC1N9fDxEOzk0vTThOua/mglfF8NO7uVDLRC8Q==" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/vanilla-tilt@1.7.0/lib/vanilla-tilt.js" defer></script>
+    </body>
+</html>
