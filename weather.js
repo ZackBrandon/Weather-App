@@ -1,5 +1,21 @@
 //Get the lat/lon for a given zipcode
 
+const APIKEY = "02c31802b54f5a3e8fb3d454cc8cff72"
+
+
+if (window.navigator.geolocation) {
+    window.navigator.geolocation.getCurrentPosition(geoLocationRceived,geoLocationNull);
+}
+//Code to execute if the geolocation function returns nothing
+function geoLocationNull() {
+}
+
+//Function to execute if the geolocation returns true!
+function geoLocationRceived(pos) {
+    let lat = pos.coords.latitude
+    let lon = pos.coords.longitude
+    getLatLon(null,lat,lon);
+}
 
 let smallsList = [];
 let weatherCards = [];
@@ -16,6 +32,22 @@ smallsList.push(document.getElementById("weather__small1"));
 input__field.addEventListener("keypress",function(event) {
     let re = /\d/;
     if (re.test(this.value) && this.value.length == 5 && event.key === "Enter") {
+        myCard = new Weather(this.value);
+        myCard.createDOM();
+        myCard.queryDatabase();
+
+
+
+        
+        this.value = "";
+    }
+});
+
+class Small {
+    constructor(myCard) {
+        this.name = myCard.data.city_name;
+    }
+    createDOM() {
         let currSmall = document.getElementById("weather__small1");
         let newSmall = currSmall.cloneNode(true);
         document.getElementById("weather__smalls").insertBefore(newSmall,document.getElementById("addNewSmall"));
@@ -31,6 +63,7 @@ input__field.addEventListener("keypress",function(event) {
                 }
             }
         newSmall.id = ids[0];
+        document.getElementById(ids[0]).innerHTML = this.name;
         newSmall.addEventListener("mouseenter",function() {
             this.style.background = "pink";
 
@@ -39,40 +72,8 @@ input__field.addEventListener("keypress",function(event) {
             this.style.background = "grey";
         });
         smallsList.push(newSmall);
-        this.value = "";
-    }
-});
-
-addNewSmall.addEventListener("click",function() {
-
-});
-
-class Small {
-    constructor() {
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 var el = document.getElementById('weather__cards');
@@ -124,9 +125,14 @@ class Weather {
         this.data.feels_like = Math.round(xhr.response.current.feels_like);
         this.data.sky_desc = xhr.response.current.weather[0]["description"];
         this.data.city_name = ajax.response["name"];
+        console.log("Hello!");
         this.data.days.name = this.getHighsAndLows(xhr)[0];
         this.data.days.high = this.getHighsAndLows(xhr)[1];
         this.data.days.low = this.getHighsAndLows(xhr)[2];
+        //Create a new small after the variables have been properly assigned
+        let mySmall = new Small(this);
+        mySmall.createDOM();
+
     }
     createDOM() {
         let currNode = document.getElementsByClassName("weather__card")[0];
@@ -190,12 +196,12 @@ class Weather {
                 this.assignVariables(this.xhr,this.ajax);
                 this.loadElements(this.xhr,this.ajax);
             });
-            this.xhr.open("GET","https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon="+ lon +"&units=imperial&appid=02c31802b54f5a3e8fb3d454cc8cff72");
+            this.xhr.open("GET","https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon="+ lon +"&units=imperial&appid=" + APIKEY);
             this.xhr.send(); 
         });
         //02c31802b54f5a3e8fb3d454cc8cff72
         //02c31802b54f5a3e8fb3d454cc8cff72
-        this.ajax.open("GET","http://api.openweathermap.org/data/2.5/weather?zip=" + this.zip +"&units=imperial&appid=02c31802b54f5a3e8fb3d454cc8cff72");
+        this.ajax.open("GET","http://api.openweathermap.org/data/2.5/weather?zip=" + this.zip +"&units=imperial&appid=" + APIKEY);
         this.ajax.send();
     }
     getDateTime(xhr) {
@@ -260,58 +266,83 @@ class Weather {
     }
 }
 
-myCard = new Weather(20715);
-myCard.createDOM();
-myCard.queryDatabase();
+// myCard = new Weather(20715);
+// myCard.createDOM();
+// myCard.queryDatabase();
 
 
-myCard = new Weather(46989);
-myCard.createDOM();
-myCard.queryDatabase();
+// myCard = new Weather(46989);
+// myCard.createDOM();
+// myCard.queryDatabase();
 
-myCard = new Weather(47803);
-myCard.createDOM();
-myCard.queryDatabase();
+// myCard = new Weather(47803);
+// myCard.createDOM();
+// myCard.queryDatabase();
 
-myCard = new Weather(99501);
-myCard.createDOM();
-myCard.queryDatabase();
+// myCard = new Weather(99501);
+// myCard.createDOM();
+// myCard.queryDatabase();
 
 let numHours = 6;
-function getLatLon(zip) {
-    let ajax = new XMLHttpRequest();
-    ajax.responseType = "json";
-    ajax.addEventListener("load",function() {
-        if (this.status !== 200) {
-            alert("Oh no! There was a pesky problem communicating with the server...");
-        }
-        let cityName = this.response["name"];
-        let lat = this.response["coord"]["lat"];
-        let lon = this.response["coord"]["lon"];
+function getLatLon(zip,myLat=null,myLon=null) {
+    if (myLat && myLon) {
         let xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.addEventListener("load",function() {
             if (this.status !== 200) {
                 alert("Oh no! There was a pesky problem communicating with the server...");
             }
-            updateField(xhr,ajax);
+            updateField(xhr);
         });
-        xhr.open("GET","https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon="+ lon +"&units=imperial&appid=02c31802b54f5a3e8fb3d454cc8cff72");
+        xhr.open("GET","https://api.openweathermap.org/data/2.5/onecall?lat=" + myLat + "&lon="+ myLon +"&units=imperial&appid=" + APIKEY);
         xhr.send(); 
-    });
-    //02c31802b54f5a3e8fb3d454cc8cff72
-    //02c31802b54f5a3e8fb3d454cc8cff72
-    ajax.open("GET","http://api.openweathermap.org/data/2.5/weather?zip=" + zip +"&units=imperial&appid=02c31802b54f5a3e8fb3d454cc8cff72");
-    ajax.send();
+    } else {
+        let ajax = new XMLHttpRequest();
+        ajax.responseType = "json";
+        ajax.addEventListener("load",function() {
+            var lat;
+            var lon;
+            if (this.status !== 200) {
+                alert("Oh no! There was a pesky problem communicating with the server...");
+            }
+            console.log(this.response);
+            let cityName = this.response["name"];
+            if (myLat && myLon) {
+                lat = myLat;
+                lon = myLon;
+            } else {
+                lat = this.response["coord"]["lat"];
+                lon = this.response["coord"]["lon"];
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.responseType = "json";
+            xhr.addEventListener("load",function() {
+                if (this.status !== 200) {
+                    alert("Oh no! There was a pesky problem communicating with the server...");
+                }
+                updateField(xhr,ajax);
+            });
+            xhr.open("GET","https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon="+ lon +"&units=imperial&appid=" + APIKEY);
+            xhr.send(); 
+        });
+        //
+        //02c31802b54f5a3e8fb3d454cc8cff72
+        ajax.open("GET","http://api.openweathermap.org/data/2.5/weather?zip=" + zip +"&units=imperial&appid=" + APIKEY);
+        ajax.send();
+    }
 }
 
-function updateField(xhr,ajax) {
+function updateField(xhr,ajax="Your Location") {
     let curr_dateTime = getDateTime(xhr);
     let hours = getHours(xhr);
     let temperatures = getTemperatures(xhr);
     let highsAndLows = getHighsAndLows(xhr);
     document.getElementsByClassName("time")[0].innerHTML = getDateTime(xhr);
-    document.getElementsByClassName("city")[0].innerHTML = ajax.response["name"];
+    if (ajax == "Your Location") {
+        document.getElementsByClassName("city")[0].innerHTML = "Your Location";
+    } else {
+        document.getElementsByClassName("city")[0].innerHTML = ajax.response["name"];
+    }
     document.getElementsByClassName("curr__temp")[0].innerHTML = Math.round(xhr.response.current.temp);
     document.getElementsByClassName("curr__temp")[1].innerHTML = Math.round(xhr.response.current.temp);
     document.getElementsByClassName("sky")[0].innerHTML = xhr.response.current.weather[0]["description"];
@@ -383,4 +414,4 @@ function getHours(xhr) {
 }
 //cali 90201
 //Tarre Heaute 47803
-getLatLon(90201);
+// getLatLon(90201);
