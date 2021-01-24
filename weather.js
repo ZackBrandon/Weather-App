@@ -1,5 +1,19 @@
 //Get the lat/lon for a given zipcode
 
+/*
+TODO!
+- What if I don't allow my location/browser won't allow it?
+- Figure out why tilt.js is being weird
+- Search and list bugs
+
+
+FEATURES
+- Data validation? (make text input easier)
+- Style the smalls
+- What if I want to enter a city name?
+- What if I click on the small?
+- Usibility test
+*/
 const APIKEY = "02c31802b54f5a3e8fb3d454cc8cff72"
 
 
@@ -18,14 +32,29 @@ function geoLocationRceived(pos) {
 }
 
 let smallsList = [];
+let weatherCardNodes = [];
 let weatherCards = [];
+
+
 
 document.getElementById("weather__small1").addEventListener("mouseenter",function() {
     this.style.background = "pink";
+    for (let i = 0; i < weatherCardNodes.length; i++) {
+        weatherCardNodes[i].setAttribute("hidden","true");
+    }
+    for (let i = 0; i < smallsList.length; i++) {
+        //weatherCardNodes[i-1].setAttribute("hidden","true");
+        if (smallsList[i].id == this.id) {
+            weatherCardNodes[i].removeAttribute("hidden");
+            //console.log(weatherCards[i-1].data.city_name);
+        }
+    }
+
 });
 document.getElementById("weather__small1").addEventListener("mouseout",function() {
     this.style.background = "grey";
 });
+weatherCardNodes.push(document.getElementById("w1"));
 smallsList.push(document.getElementById("weather__small1"));
 
 
@@ -33,9 +62,9 @@ input__field.addEventListener("keypress",function(event) {
     let re = /\d/;
     if (re.test(this.value) && this.value.length == 5 && event.key === "Enter") {
         myCard = new Weather(this.value);
+        weatherCards.push(myCard);
         myCard.createDOM();
         myCard.queryDatabase();
-
 
 
         
@@ -46,6 +75,7 @@ input__field.addEventListener("keypress",function(event) {
 class Small {
     constructor(myCard) {
         this.name = myCard.data.city_name;
+        this.id = "";
     }
     createDOM() {
         let currSmall = document.getElementById("weather__small1");
@@ -62,14 +92,27 @@ class Small {
                     ids.splice(xids[i],1);
                 }
             }
+        this.id = ids[0];
         newSmall.id = ids[0];
         document.getElementById(ids[0]).innerHTML = this.name;
         newSmall.addEventListener("mouseenter",function() {
             this.style.background = "pink";
+            //w1.setAttribute("hidden","true");
+            for (let i = 0; i < weatherCardNodes.length; i++) {
+                weatherCardNodes[i].setAttribute("hidden","true");
+            }
+            for (let i = 0; i < smallsList.length; i++) {
+                //weatherCardNodes[i-1].setAttribute("hidden","true");
+                if (smallsList[i].id == this.id) {
+                    weatherCardNodes[i].removeAttribute("hidden");
+                    //console.log(weatherCards[i-1].data.city_name);
+                }
+            }
 
         });
         newSmall.addEventListener("mouseout",function() {
             this.style.background = "grey";
+
         });
         smallsList.push(newSmall);
     }
@@ -125,7 +168,6 @@ class Weather {
         this.data.feels_like = Math.round(xhr.response.current.feels_like);
         this.data.sky_desc = xhr.response.current.weather[0]["description"];
         this.data.city_name = ajax.response["name"];
-        console.log("Hello!");
         this.data.days.name = this.getHighsAndLows(xhr)[0];
         this.data.days.high = this.getHighsAndLows(xhr)[1];
         this.data.days.low = this.getHighsAndLows(xhr)[2];
@@ -150,8 +192,8 @@ class Weather {
         let newNode = currNode.cloneNode(true);
         newNode.id = ids[0];
         this.id = ids[0];
-        weatherCards.push(newNode);
-        // newNode.removeAttribute("hidden");
+        weatherCardNodes.push(newNode);
+        newNode.setAttribute("hidden","true");
         document.getElementById("weather__cards").appendChild(newNode);
     }
 
@@ -305,7 +347,7 @@ function getLatLon(zip,myLat=null,myLon=null) {
             if (this.status !== 200) {
                 alert("Oh no! There was a pesky problem communicating with the server...");
             }
-            console.log(this.response);
+            //console.log(this.response);
             let cityName = this.response["name"];
             if (myLat && myLon) {
                 lat = myLat;
