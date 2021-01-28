@@ -12,86 +12,98 @@
     <body>
         <!-- <h1>Weather Information</h1> -->
         <div id="all__wrapper">
-            <div id="weather__wrapper">
+            <div id="small__wrapper">
                 <div id="weather__smalls">
-                    <div class="weather__small" id="weather__small1">Your Location</div>
+                    <div class="weather__small" id="weather__small1">
+                        <div class="small__location__text">
+                            Your Location
+                        </div>
+                        <div>
+                            <div id="upper__curr__temp" class="small__curr__temp">-</div>
+                            <div id="upper__curr__time" class="small__curr__dateTime">-</div>
+                        </div>
+                        <div class="button__box">
+                            <input class="remove__button" type="button" name="delete__small" value="X">
+                        </div>
+                    </div>
                     <div class="weather__small" id="addNewSmall">
-                        <input id="input__field"type="number">
+                        <input id="input__field" type="text" class="inputText" required>
+                        <div class="floating-label">Add New:</div>
                     </div>
                 </div>
             </div>
 
             <div id="weather__cards">
-                <div data-tilt-speed="900" data-tilt-scale="1.06" data-tilt data-tilt-shadow="true" data-tilt-perspective="1000" data-tilt-max="4" data-tilt-max-glare="0.3" id="w1" class="weather__card">
+                <div data-tilt-speed="0" data-tilt-scale="1.06" data-tilt data-tilt-shadow="true" data-tilt-perspective="1000" data-tilt-max="4" data-tilt-max-glare="0.3" id="w1" class="weather__card">
                     <div class="upper__information">
-                        <div class="time upper"></div>
-                        <div class="city upper"></div>
-                        <div class="curr__temp upper "></div>
-                        <div class="sky upper"></div>
-                        <div class="feels_like upper"></div>
+                        <div id="current__time" class="time upper">Time</div>
+                        <div class="city upper">City</div>
+                        <div id="current__temp" class="curr__temp upper ">-</div>
+                        <div class="sky upper">Weather</div>
+                        <div class="feels_like upper">Feels like</div>
                     </div>
                     <div class="line"></div>
                     <div class="hourly__forecast">
                         <div class="hour current__hour">
-                            <div class="hour__time__current">Now</div>
-                            <div class="curr__temp" id="now__temp"></div>
+                            <div id="now" class="hour__time__current">Now</div>
+                            <div class="curr__temp" id="now__temp">-</div>
                         </div>
                         <div class="hour hour1">
-                            <div class="hour__time"></div>
-                            <div class="temp temp1"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp1">-</div>
                         </div>
                         <div class="hour hour2">
-                            <div class="hour__time"></div>
-                            <div class="temp temp2"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp2">-</div>
                         </div>
                         <div class="hour hour3">
-                            <div class="hour__time"></div>
-                            <div class="temp temp3"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp3">-</div>
                         </div>
                         <div class="hour hour4">
-                            <div class="hour__time"></div>
-                            <div class="temp temp4"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp4">-</div>
                         </div>
                         <div class="hour hour5">
-                            <div class="hour__time"></div>
-                            <div class="temp temp5"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp5">-</div>
                         </div>
                         <div class="hour hour6">
-                            <div class="hour__time"></div>
-                            <div class="temp temp6"></div>
+                            <div class="hour__time">-</div>
+                            <div class="temp temp6">-</div>
                         </div>
                     </div>
                     <div class="line"></div>
                     <div class="weekly__forecast">
                         <div class="day day1">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day2">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day3">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day4">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day5">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day6">
-                            <div class="dayName"></div>
-                            <div class="high"></div>
-                            <div class="low"></div>
+                            <div class="dayName">-</div>
+                            <div class="high">-</div>
+                            <div class="low">-</div>
                         </div>
                         <div class="day day7">
                             <div class="dayName"></div>
@@ -107,5 +119,6 @@
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js" integrity="sha512-5x7t0fTAVo9dpfbp3WtE2N6bfipUwk7siViWncdDoSz2KwOqVC1N9fDxEOzk0vTThOua/mglfF8NO7uVDLRC8Q==" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/vanilla-tilt@1.7.0/lib/vanilla-tilt.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
 </html>

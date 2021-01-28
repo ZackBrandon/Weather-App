@@ -2,26 +2,27 @@
 
 /*
 TODO!
-- What if I don't allow my location/browser won't allow it?
 - Figure out why tilt.js is being weird
-- Search and list bugs
-
+- Search and list bugs WEIRD BUG FOUND.....
+- Make "your location" actually display your location's data.
 
 FEATURES
+- Make the widget update live without page reload
+- small slide out animation? oooo that might be interesting...
 - Data validation? (make text input easier)
-- Style the smalls
 - What if I want to enter a city name?
 - What if I click on the small?
 - Usibility test
+- Make the "no location found" screen / card more visually appealing. (can we direct the user to enable location?)
 */
-const APIKEY = "02c31802b54f5a3e8fb3d454cc8cff72"
-
+const APIKEY = "02c31802b54f5a3e8fb3d454cc8cff72";
 
 if (window.navigator.geolocation) {
     window.navigator.geolocation.getCurrentPosition(geoLocationRceived,geoLocationNull);
 }
 //Code to execute if the geolocation function returns nothing
 function geoLocationNull() {
+    now.innerHTML = "For some reason, your current location information is not available :(. Make sure you allow location tracking on this website!";
 }
 
 //Function to execute if the geolocation returns true!
@@ -38,7 +39,7 @@ let weatherCards = [];
 
 
 document.getElementById("weather__small1").addEventListener("mouseenter",function() {
-    this.style.background = "pink";
+    //this.style.background = "pink";
     for (let i = 0; i < weatherCardNodes.length; i++) {
         weatherCardNodes[i].setAttribute("hidden","true");
     }
@@ -51,16 +52,38 @@ document.getElementById("weather__small1").addEventListener("mouseenter",functio
     }
 
 });
-document.getElementById("weather__small1").addEventListener("mouseout",function() {
-    this.style.background = "grey";
-});
+// document.getElementById("weather__small1").addEventListener("mouseleave",function() {
+//     this.style.background = "rgba( 255, 255, 255, 0.50)";
+// });
 weatherCardNodes.push(document.getElementById("w1"));
 smallsList.push(document.getElementById("weather__small1"));
+
+
+//let expanded = true;
+// let box = document.getElementById("weather__smalls");
+// box.style.height = box.offsetHeight;
 
 
 input__field.addEventListener("keypress",function(event) {
     let re = /\d/;
     if (re.test(this.value) && this.value.length == 5 && event.key === "Enter") {
+       // console.log(window.getComputedStyle(weather__smalls, null).getPropertyValue('height'));
+
+        // setTimeout(function() {
+        //     let newHeight = window.getComputedStyle(weather__smalls, null).getPropertyValue('height');
+        //     box.style.height = 100 + "px";
+
+        // },1000)
+        // if (expanded) {
+        //     box.style.height += 300 + "px";
+        //     expanded = false;
+        // }
+        // } else {
+        //     box.style.height = height+"px";
+        //     expanded = true;
+        // }
+        document.getElementById("input__field").blur();
+        //document.getElementById('weather__smalls').style.height = heightElem + 100;
         myCard = new Weather(this.value);
         weatherCards.push(myCard);
         myCard.createDOM();
@@ -75,10 +98,16 @@ input__field.addEventListener("keypress",function(event) {
 class Small {
     constructor(myCard) {
         this.name = myCard.data.city_name;
+        this.curr_dateTime = myCard.data.curr_dateTime,
+        this.city_name = myCard.data.city_name,
+        this.curr_temperature = myCard.data.curr_temperature,
+        this.feels_like = myCard.data.feels_like,
+        this.sky_desc = myCard.data.sky_desc,
         this.id = "";
     }
     createDOM() {
         let currSmall = document.getElementById("weather__small1");
+        //console.log(currSmall);
         let newSmall = currSmall.cloneNode(true);
         document.getElementById("weather__smalls").insertBefore(newSmall,document.getElementById("addNewSmall"));
         let ids = ["weather__small1","weather__small2","weather__small3","weather__small4","weather__small5","weather__small6","weather__small7","weather__small8","weather__small9","weather__small10","weather__small11"];
@@ -93,10 +122,13 @@ class Small {
                 }
             }
         this.id = ids[0];
+        let currentId = this.id;
         newSmall.id = ids[0];
-        document.getElementById(ids[0]).innerHTML = this.name;
+        document.querySelector("#" + ids[0] + " .small__location__text").innerHTML = this.name;
+        document.querySelector("#" + ids[0] + " .small__curr__dateTime").innerHTML = this.curr_dateTime;
+        document.querySelector("#" + ids[0] + " .small__curr__temp").innerHTML = this.curr_temperature + "&#176";
         newSmall.addEventListener("mouseenter",function() {
-            this.style.background = "pink";
+            //this.style.background = "pink";
             //w1.setAttribute("hidden","true");
             for (let i = 0; i < weatherCardNodes.length; i++) {
                 weatherCardNodes[i].setAttribute("hidden","true");
@@ -110,11 +142,34 @@ class Small {
             }
 
         });
-        newSmall.addEventListener("mouseout",function() {
-            this.style.background = "grey";
-
-        });
         smallsList.push(newSmall);
+
+        newSmall.getElementsByClassName("remove__button")[0].onclick = function() {
+            //this.style.background = "pink";
+            for (let i = 0; i < smallsList.length; i++) {
+                if (smallsList[i].id == currentId) {
+                    smallsList[i].remove();
+                    weatherCardNodes[i].remove()
+                    //smallsList[i].hidden = true;
+                    //smallsList.splice(i-1);
+                }
+            }
+        }
+        // newSmall.getElementsByClassName("remove__button")[0].addEventListener("click",function() {
+        //     this.style.background = "pink";
+        //     for (let i = 0; i < smallsList.length; i++) {
+        //         console.log(smallsList);
+        //         if (smallsList[i].id == this.id) {
+        //             console.log(":)");
+        //             smallsList[i].hidden = true;
+        //             smallsList.splice(i);
+        //         }
+        //     }
+        // });
+//         newSmall.addEventListener("mouseleave",function() {
+//             this.style.background = "rgba( 255, 255, 255, 0.50)";
+// s
+//         });
     }
 }
 
@@ -142,6 +197,10 @@ class Weather {
         this.numHours = 6;
         this.zip = zip;
         this.id = "";
+        this.now = "Now";
+        this.background = {
+
+        };
         this.data = {
             curr_dateTime:"3PM",
             city_name:"Upland",
@@ -174,6 +233,7 @@ class Weather {
         //Create a new small after the variables have been properly assigned
         let mySmall = new Small(this);
         mySmall.createDOM();
+       // console.log(window.getComputedStyle(weather__smalls, null).getPropertyValue('height'));
 
     }
     createDOM() {
@@ -199,12 +259,13 @@ class Weather {
 
     loadElements(xhr,ajax) {
         let card = document.getElementById(this.id);
+        card.getElementsByClassName("hour__time__current")[0].innerHTML = this.now;
         card.getElementsByClassName("time")[0].innerHTML = this.data.curr_dateTime;
         card.getElementsByClassName("city")[0].innerHTML = this.data.city_name;
-        card.getElementsByClassName("curr__temp")[0].innerHTML = this.data.curr_temperature;
-        card.getElementsByClassName("curr__temp")[1].innerHTML = this.data.curr_temperature;
+        card.getElementsByClassName("curr__temp")[0].innerHTML = this.data.curr_temperature + "&#176";
+        card.getElementsByClassName("curr__temp")[1].innerHTML = this.data.curr_temperature + "&#176";
         card.getElementsByClassName("sky")[0].innerHTML = this.data.sky_desc;
-        card.getElementsByClassName("feels_like")[0].innerHTML = "Feels like: " + this.data.feels_like;
+        card.getElementsByClassName("feels_like")[0].innerHTML = "Feels like: " + this.data.feels_like + "&#176";
         let divs = card.getElementsByClassName("hour__time");
         let temps = card.getElementsByClassName("temp");
         let dayNames = card.getElementsByClassName("dayName");
@@ -261,7 +322,7 @@ class Weather {
     }
     getHours(xhr) {
         let hours = [];
-        for (let i = 1; i < numHours+1;i++) {
+        for (let i = 1; i < 6+1;i++) {
             let currentUnixHourTimeStamp = xhr.response.hourly[i].dt;
             let selectedLocationOffset = xhr.response.timezone_offset;
             let num = (currentUnixHourTimeStamp*1000) + (selectedLocationOffset*1000);
@@ -278,9 +339,9 @@ class Weather {
     }
     getTemperatures(xhr) {
         let temps = [];
-        for (let i = 0; i < numHours+1; i++) {
+        for (let i = 0; i < 6+1; i++) {
             let temp = xhr.response.hourly[i].temp;
-            temps.push(Math.round(temp));
+            temps.push(Math.round(temp) + "&#176");
         }
         return temps;
     }
@@ -291,12 +352,12 @@ class Weather {
         let myDays = [];
         for (let i = 1; i < 8; i++) {
             let high = xhr.response.daily[i].temp.max;
-            highs.push(Math.round(high));
+            highs.push(Math.round(high) + "&#176");
         }
 
         for (let i = 1; i < 8; i++) {
             let low = xhr.response.daily[i].temp.min;
-            lows.push(Math.round(low));
+            lows.push(Math.round(low) + "&#176");
         }
         for (let i = 1; i < 8; i++) {
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; 
@@ -308,24 +369,6 @@ class Weather {
     }
 }
 
-// myCard = new Weather(20715);
-// myCard.createDOM();
-// myCard.queryDatabase();
-
-
-// myCard = new Weather(46989);
-// myCard.createDOM();
-// myCard.queryDatabase();
-
-// myCard = new Weather(47803);
-// myCard.createDOM();
-// myCard.queryDatabase();
-
-// myCard = new Weather(99501);
-// myCard.createDOM();
-// myCard.queryDatabase();
-
-let numHours = 6;
 function getLatLon(zip,myLat=null,myLon=null) {
     if (myLat && myLon) {
         let xhr = new XMLHttpRequest();
@@ -380,21 +423,23 @@ function updateField(xhr,ajax="Your Location") {
     let temperatures = getTemperatures(xhr);
     let highsAndLows = getHighsAndLows(xhr);
     document.getElementsByClassName("time")[0].innerHTML = getDateTime(xhr);
+    document.getElementById("upper__curr__time").innerHTML = document.getElementsByClassName("time")[0].innerHTML;
     if (ajax == "Your Location") {
         document.getElementsByClassName("city")[0].innerHTML = "Your Location";
     } else {
         document.getElementsByClassName("city")[0].innerHTML = ajax.response["name"];
     }
-    document.getElementsByClassName("curr__temp")[0].innerHTML = Math.round(xhr.response.current.temp);
-    document.getElementsByClassName("curr__temp")[1].innerHTML = Math.round(xhr.response.current.temp);
+    document.getElementsByClassName("curr__temp")[0].innerHTML = Math.round(xhr.response.current.temp) + "&#176";
+    document.getElementsByClassName("curr__temp")[1].innerHTML = Math.round(xhr.response.current.temp) + "&#176";
+    document.getElementById("upper__curr__temp").innerHTML = document.getElementsByClassName("curr__temp")[0].innerHTML;
     document.getElementsByClassName("sky")[0].innerHTML = xhr.response.current.weather[0]["description"];
-    document.getElementsByClassName("feels_like")[0].innerHTML = "Feels like: " + Math.round(xhr.response.current.feels_like);
+    document.getElementsByClassName("feels_like")[0].innerHTML = "Feels like: " + Math.round(xhr.response.current.feels_like) + "&#176";
     let divs = document.getElementsByClassName("hour__time");
     let temps = document.getElementsByClassName("temp");
     let dayNames = document.getElementsByClassName("dayName");
     let highs = document.getElementsByClassName("high");
     let lows = document.getElementsByClassName("low");
-    for (let i = 0; i < numHours; i++) {
+    for (let i = 0; i < 6; i++) {
         divs[i].innerHTML = hours[i];
         temps[i].innerHTML = temperatures[i];
         dayNames[i].innerHTML = highsAndLows[i][0];
@@ -411,15 +456,15 @@ function getHighsAndLows(xhr) {
         let low = xhr.response.daily[i].temp.min;
         let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; 
         let day = days[new Date(xhr.response.daily[i].dt*1000).getDay()]
-        dataList.push([day,Math.round(high),Math.round(low)]);
+        dataList.push([day,Math.round(high) + "&#176",Math.round(low) + "&#176"]);
     }
     return dataList;
 }
 function getTemperatures(xhr) {
     let temps = [];
-    for (let i = 0; i < numHours+1; i++) {
+    for (let i = 0; i < 6+1; i++) {
         let temp = xhr.response.hourly[i].temp;
-        temps.push(Math.round(temp));
+        temps.push(Math.round(temp) + "&#176");
     }
     return temps;
 }
@@ -439,7 +484,7 @@ function getDateTime(xhr) {
 
 function getHours(xhr) {
     let hours = [];
-    for (let i = 1; i < numHours+1;i++) {
+    for (let i = 1; i < 6+1;i++) {
         let currentUnixHourTimeStamp = xhr.response.hourly[i].dt;
         let selectedLocationOffset = xhr.response.timezone_offset;
         let num = (currentUnixHourTimeStamp*1000) + (selectedLocationOffset*1000);
