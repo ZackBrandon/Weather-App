@@ -15,7 +15,7 @@ FEATURES
 - Usibility test
 - Make the "no location found" screen / card more visually appealing. (can we direct the user to enable location?)
 */
-const APIKEY = "02c31802b54f5a3e8fb3d454cc8cff72";
+const APIKEY = "HIDDEN";
 
 if (window.navigator.geolocation) {
     window.navigator.geolocation.getCurrentPosition(geoLocationRceived,geoLocationNull);
